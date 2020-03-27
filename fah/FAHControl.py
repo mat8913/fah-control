@@ -25,8 +25,6 @@ import urllib
 
 import gtk
 import glib
-import pygtk
-pygtk.require("2.0")
 import pango
 import webbrowser
 import shlex
