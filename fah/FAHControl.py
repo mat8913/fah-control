@@ -212,11 +212,7 @@ class FAHControl(SingleAppServer):
 
         # Build GUI
         self.builder = builder = gtk.Builder()
-        try:
-            builder.add_from_string(glade)
-        except:
-            self.error('Failed to load UI file: %s' % glade)
-            sys.exit(1)
+        builder.add_from_string(glade)
 
         # Main window
         self.window = builder.get_object('window')
