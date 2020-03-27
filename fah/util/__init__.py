@@ -17,6 +17,10 @@
 '''
 
 # fah.util
+from gi import pygtkcompat
+pygtkcompat.enable()
+pygtkcompat.enable_gtk()
+
 import sys
 import os
 import gtk
