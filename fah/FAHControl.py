@@ -182,7 +182,7 @@ class FAHControl(SingleAppServer):
             osx_add_GtkApplicationDelegate_methods()
 
         # URI hook
-        gtk.link_button_set_uri_hook(self.on_uri_hook, None)
+        # gtk.link_button_set_uri_hook(self.on_uri_hook, None)
 
         # Style
         settings = gtk.settings_get_default()
