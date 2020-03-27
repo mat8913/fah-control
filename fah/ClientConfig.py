@@ -485,7 +485,7 @@ class ClientConfig:
             f.append(r'FS%s' % id)
 
         if len(f):
-            f = map(lambda x: '.*(^|:)%s' % x, f)
+            f = ('.*(^|:)%s' % x for x in f)
             return '(^\*)|(%s):' % ''.join(f)
 
         return None
@@ -497,7 +497,7 @@ class ClientConfig:
 
 
     def log_add_lines(self, app, lines):
-        filtered = filter(self.log_filter, lines)
+        filtered = [line for line in lines if self.log_filter(line)]
 
         if len(filtered):
             text = '\n'.join(filtered)
