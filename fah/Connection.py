@@ -29,6 +29,7 @@ import errno
 import time
 import sys
 import traceback
+import ast
 
 if sys.platform == 'win32':
     from ctypes import windll
@@ -203,7 +204,9 @@ class Connection:
 
     def parse_message(self, version, type, data):
         try:
-            msg = eval(data, {}, {})
+            if not isinstance(data, str):
+                data = data.decode()
+            msg = ast.literal_eval(data)
             #if debug: print 'MSG:', type, msg
             self.messages.append((version, type, msg))
             self.last_message = time.time()
