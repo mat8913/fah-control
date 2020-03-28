@@ -24,8 +24,6 @@ import time
 import sys
 import traceback
 
-from fah.util import OrderedDict
-
 if sys.platform == 'win32':
     from ctypes import windll
     WSAGetLastError = windll.ws2_32.WSAGetLastError

@@ -24,7 +24,6 @@ import gtk
 from SingleApp import *
 from EntryValidator import *
 from PasswordValidator import *
-from OrderedDict import *
 
 
 def parse_bool(x):
