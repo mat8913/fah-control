@@ -28,8 +28,6 @@ import urllib
 
 import gtk
 import glib
-import pygtk
-pygtk.require("2.0")
 import pango
 import webbrowser
 import shlex
@@ -187,7 +185,7 @@ class FAHControl(SingleAppServer):
             osx_add_GtkApplicationDelegate_methods()
 
         # URI hook
-        gtk.link_button_set_uri_hook(self.on_uri_hook, None)
+        # gtk.link_button_set_uri_hook(self.on_uri_hook, None)
 
         # Style
         settings = gtk.settings_get_default()
@@ -217,11 +215,7 @@ class FAHControl(SingleAppServer):
 
         # Build GUI
         self.builder = builder = gtk.Builder()
-        try:
-            builder.add_from_string(glade)
-        except:
-            self.error('Failed to load UI file: %s' % glade)
-            sys.exit(1)
+        builder.add_from_string(glade)
 
         # Main window
         self.window = builder.get_object('window')
@@ -1277,10 +1271,10 @@ class FAHControl(SingleAppServer):
 
 
     def store_dimensions(self, widget, event, name):
-        x, y, width, height = widget.get_allocation()
-        if 0 <= width and 0 <= height:
-            self.db.set(name + '_width', width, queue = True);
-            self.db.set(name + '_height', height, queue = True);
+        dimensions = widget.get_allocation()
+        if 0 <= dimensions.width and 0 <= dimensions.height:
+            self.db.set(name + '_width', dimensions.width, queue = True);
+            self.db.set(name + '_height', dimensions.height, queue = True);
 
 
     # Action signals
