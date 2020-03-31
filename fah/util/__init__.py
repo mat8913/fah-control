@@ -34,7 +34,6 @@ import gtk
 from fah.util.SingleApp import *
 from fah.util.EntryValidator import *
 from fah.util.PasswordValidator import *
-from fah.util.OrderedDict import *
 
 
 def parse_bool(x):
