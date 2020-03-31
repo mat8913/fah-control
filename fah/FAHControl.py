@@ -407,9 +407,11 @@ class FAHControl(SingleAppServer):
         self.donor_stats_pref = self.preference_widgets['donor_stats']
         self.team_stats_pref = self.preference_widgets['team_stats']
         self.donor_stats_list = builder.get_object('donor_stats_links_list')
-        map(self.donor_stats_list.append, self.donor_stats_links)
+        for x in self.donor_stats_links:
+            self.donor_stats_list.append(x)
         self.team_stats_list = builder.get_object('team_stats_links_list')
-        map(self.team_stats_list.append, self.team_stats_links)
+        for x in self.team_stats_links:
+            self.team_stats_list.append(x)
 
         # OSX integration
         if sys.platform == 'darwin':
@@ -1161,8 +1163,8 @@ class FAHControl(SingleAppServer):
 
     def get_selected_clients(self):
         selection = get_tree_selection(self.client_tree)
-        names = map(lambda item: self.client_list.get(item[1], 0)[0], selection)
-        return set(map(self.clients.get, names))
+        names = (self.client_list.get(item[1], 0)[0] for item in selection)
+        return set(self.clients.get(name) for name in names)
 
 
     def edit_client(self, client):
@@ -1193,8 +1195,7 @@ class FAHControl(SingleAppServer):
     # Slot methods
     def get_selected_slot_ids(self):
         selection = get_tree_selection(self.slot_status_tree)
-        ids = map(lambda x: int(self.slot_status_list.get(x[1], 0)[0]),
-                  selection)
+        ids = [int(self.slot_status_list.get(x[1], 0)[0]) for x in selection]
         return ids
 
 

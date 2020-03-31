@@ -54,7 +54,8 @@ class Connection:
         self.init_commands = commands
 
         if self.is_connected():
-            map(self.queue_command, self.init_commands)
+            for cmd in self.init_commands:
+                self.queue_command(cmd)
 
 
     def get_status(self):
@@ -111,7 +112,8 @@ class Connection:
             raise Exception('Connection failed: ' + errno.errorcode[err])
 
         if self.password: self.queue_command('auth "%s"' % self.password)
-        map(self.queue_command, self.init_commands)
+        for cmd in self.init_commands:
+            self.queue_command(cmd)
 
 
     def close(self):

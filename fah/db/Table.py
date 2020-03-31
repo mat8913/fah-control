@@ -40,14 +40,14 @@ class Table:
 
         else:
             sql +=\
-                ' AND '.join(map(lambda i: '"%s"=\'%s\'' % i, kwargs.items()))
+                ' AND '.join('"%s"=\'%s\'' % i for i in kwargs.items())
 
         return sql
 
 
     def create(self, db):
         sql = 'CREATE TABLE IF NOT EXISTS "%s" (%s' % (
-            self.name, ','.join(map(Column.get_sql, self.cols)))
+            self.name, ','.join(Column.get_sql(col) for col in self.cols))
 
         if self.constraints: sql += ',%s' % self.constraints
         sql += ')'
@@ -56,24 +56,24 @@ class Table:
 
 
     def insert(self, db, **kwargs):
-        cols = filter(lambda col: col.name in kwargs, self.cols)
+        cols = [col for col in self.cols if col.name in kwargs]
 
         # Error checking
         if len(cols) != len(kwargs):
-            col_names = set(map(Column.get_name, cols))
-            missing = filter(lambda kw: not kw in col_names, kwargs.keys())
+            col_names = set(Column.get_name(col) for col in cols)
+            missing = (kw for kw in kwargs.keys() if not kw in col_names)
             raise Exception('Table %s does not have column(s) %s'
                             % (self.name, ', '.join(missing)))
 
         sql = 'REPLACE INTO "%s" ("%s") VALUES (%s)' % (
-            self.name, '","'.join(map(Column.get_name, cols)),
-            ','.join(map(lambda col: col.get_db_value(kwargs[col.name]), cols)))
+            self.name, '","'.join(Column.get_name(col) for col in cols),
+            ','.join(col.get_db_value(kwargs[col.name]) for col in cols))
 
         db.execute(sql).close()
 
     def select(self, db, cols = None, **kwargs):
         if cols is None:
-            cols = '"' + '","'.join(map(str, self.cols)) + '"'
+            cols = '"' + '","'.join(str(col) for col in self.cols) + '"'
 
         sql = 'SELECT %s FROM %s' % (cols, self.name)
         if 'orderby' in kwargs:
