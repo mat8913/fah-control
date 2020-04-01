@@ -67,6 +67,11 @@ def get_tree_selection(tree_view):
     return selection
 
 
+def get_combo_text(combo):
+    model = combo.get_model()
+    return model.get_value(combo.get_active_iter(), 0)
+
+
 def remove_tree_selection(tree_view, callback = None):
     for path, iter in get_tree_selection(tree_view):
         if callback is not None: callback(path, iter)
@@ -862,7 +867,7 @@ class FAHControl(SingleAppServer):
         for pref in ['donor', 'team']:
             entry = self.preference_widgets[pref + '_stats']
             combo = self.preference_widgets[pref + '_stats_link']
-            entry.set_sensitive(combo.get_active_text() == 'Custom')
+            entry.set_sensitive(get_combo_text(combo) == 'Custom')
 
 
     def preferences_save(self):

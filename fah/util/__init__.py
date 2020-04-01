@@ -119,7 +119,7 @@ def get_widget_str_value(widget):
 
     elif isinstance(widget, gtk.ComboBox):
         # NOTE This does not always get the displayed text
-        return 'widget.get_active_text()'
+        return widget.get_model().get_value(widget.get_active_iter(), 0)
 
     else:
         print ('ERROR: unsupported widget type %s' % type(widget))
