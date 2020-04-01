@@ -1203,7 +1203,7 @@ class FAHControl(SingleAppServer):
     def get_visible_dialogs(self):
         dialogs = []
         for dialog in self.dialogs:
-            if dialog.flags() & gtk.MAPPED:
+            if dialog.get_mapped():
                 dialogs.append(dialog)
 
         return dialogs
