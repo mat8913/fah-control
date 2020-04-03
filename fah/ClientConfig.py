@@ -312,7 +312,8 @@ class ClientConfig:
             category = category[1:]
 
             # Frame
-            frame = gtk.Frame('<b>%s</b>' % name)
+            frame = gtk.Frame()
+            frame.set_label('<b>%s</b>' % name)
             frame.set_shadow_type(gtk.SHADOW_ETCHED_IN)
             frame.get_label_widget().set_use_markup(True)
             vbox.pack_start(frame, False)
