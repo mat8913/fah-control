@@ -17,8 +17,23 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+import sys
+import gi
+
+gi.require_version('Gtk', '3.0')
+
+from gi.repository import Gtk, Gio
+
 from fah import FAHControl
 
 
-app = FAHControl()
-app.run()
+class Application(Gtk.Application):
+    def __init__(self):
+        super().__init__(application_id='org.gnome.FAHControl',
+                         flags=Gio.ApplicationFlags.FLAGS_NONE)
+
+    def do_activate(self):
+        FAHControl().run()
+
+app = Application()
+app.run(sys.argv)
