@@ -153,7 +153,7 @@ class FAHControl(SingleAppServer):
 
     instance = None
 
-    def __init__(self, glade = 'FAHControl.glade'):
+    def __init__(self):
         SingleAppServer.__init__(self)
 
         self.__class__.instance = self
@@ -210,19 +210,8 @@ class FAHControl(SingleAppServer):
         # Default icon
         gtk.window_set_default_icon(get_icon('small'))
 
-        # Filter glade
-        if len(glade) < 1024: glade = open(glade, 'r').read()
-        glade = re.subn('class="GtkLabel" id="wlabel',
-                        'class="WrapLabel" id="wlabel', glade)[0]
-        if sys.platform == 'darwin':
-            # glade editor strips accel modifiers. add if missing
-            glade = re.subn('accelerator *key="comma" *signal',
-                'accelerator key="comma" modifiers="GDK_META_MASK" signal',
-                glade)[0]
-
         # Build GUI
-        self.builder = builder = gtk.Builder()
-        builder.add_from_string(glade)
+        self.builder = builder = gtk.Builder.new_from_file('./fah/FAHControl.glade')
 
         # Main window
         self.window = builder.get_object('window')

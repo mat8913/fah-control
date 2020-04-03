@@ -20,5 +20,5 @@
 from fah import FAHControl
 
 
-app = FAHControl('./fah/FAHControl.glade')
+app = FAHControl()
 app.run()
