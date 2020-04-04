@@ -33,7 +33,13 @@ class Application(Gtk.Application):
                          flags=Gio.ApplicationFlags.FLAGS_NONE)
 
     def do_activate(self):
-        FAHControl().run()
+        win = self.props.active_window
+        if win:
+            win.present()
+        else:
+            c = FAHControl()
+            self.add_window(c.window)
+            c.run()
 
 app = Application()
 app.run(sys.argv)
