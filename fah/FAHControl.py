@@ -129,7 +129,7 @@ def load_fahcontrol_db():
     return db
 
 
-class FAHControl(SingleAppServer):
+class FAHControl:
     client_cols = 'name status status_color address'.split()
 
     # NOTE: These URLs are here rather than in the Glade file because the
@@ -154,10 +154,6 @@ class FAHControl(SingleAppServer):
     instance = None
 
     def __init__(self):
-        SingleAppServer.__init__(self)
-
-        self.__class__.instance = self
-
         # Vars
         self.clients = {}
         self.clientsByAddress = {}
@@ -670,13 +666,6 @@ class FAHControl(SingleAppServer):
 
             self.check_clients()
             self.viewer_check()
-
-            if self.exit_requested.isSet():
-                self.quit()
-
-            if self.ping.isSet():
-                self.ping.clear()
-                self.restore()
 
             if 2.5 < now - self.last_db_flush:
                 self.last_db_flush = time.time()

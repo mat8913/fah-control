@@ -31,7 +31,6 @@ import sys
 import os
 import gtk
 
-from fah.util.SingleApp import *
 from fah.util.EntryValidator import *
 from fah.util.PasswordValidator import *
 
